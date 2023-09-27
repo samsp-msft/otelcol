@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+
+processors:
+  batch:
+
+exporters:
+  azuremonitor:
+    instrumentation_key: 66174adb-2a9b-40b2-a616-56fbc098f009
+  debug:
+    verbosity: detailed
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [azuremonitor, debug]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [azuremonitor, debug]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [azuremonitor, debug]
